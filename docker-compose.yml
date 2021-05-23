@@ -1,0 +1,87 @@
+version: "3.8"
+
+services:
+
+  viewtube:
+    image: mauriceo/viewtube:latest
+    hostname: viewtube
+    networks:
+      - database-backend
+      - traefik-public
+    ports:
+      - 8066:8066
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # Your server time has to be correct, for the access token generation to work
+      - ./data:/data
+#      logging:
+#        driver: none
+    deploy:
+      mode: replicated
+      replicas: 3
+      restart_policy:
+        condition: any
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+        monitor: 10s
+      rollback_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+        monitor: 10s
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+  
+        # Access Router
+        - "traefik.http.routers.viewtube.rule=Host(`${VIEWTUBE_HOSTNAME}`)"
+        - "traefik.http.routers.viewtube.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.viewtube.entrypoints=websecure"
+        - "traefik.http.routers.viewtube.service=viewtube-service"
+
+        # Service
+        - "traefik.http.services.viewtube-service.loadbalancer.server.port=8066"
+        - "traefik.http.services.viewtube-service.loadbalancer.sticky.cookie=true"
+        - "traefik.http.services.viewtube-service.loadbalancer.sticky.cookie.secure=true" 
+    environment:
+      - VIEWTUBE_API_URL=https://${VIEWTUBE_HOSTNAME}/api/
+      - VIEWTUBE_DATABASE_HOST=viewtube_viewtube-mongodb:27017
+      - VIEWTUBE_JWT_SECRET=7b634624-bedc-4740-a346-84aebb5fd742
+      - VIEWTUBE_JWT_EXPIRATION_TIME=43200
+      - VIEWTUBE_CURRENT_DOMAIN=${VIEWTUBE_HOSTNAME}
+      - VIEWTUBE_ALLOWED_DOMAINS=https://${VIEWTUBE_HOSTNAME}
+      - VIEWTUBE_DATA_DIRECTORY=/data
+      - VIEWTUBE_PUBLIC_VAPID=BMhj7pAfiaQIHOM7mBAh65WhmjKeWaA7scx6zUKJfKoskPgRVjJ3yYt1kcV7VRV6S7PQAuKyqirPA52res2mWxY
+      - VIEWTUBE_PRIVATE_VAPID=zmjXkQG-BwiWxgb4-f-dyqtQ2h6pZlkJhZtQIY2Br-o
+
+  viewtube-mongodb:
+    image: mongo
+    hostname: viewtube-mongodb
+    volumes:
+      - ./data/db:/data/db
+    networks:
+      - database-backend
+    deploy:
+#      placement:
+#        constraints:
+#          - node.labels.database-server == true
+      replicas: 1
+      restart_policy:
+        condition: any
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+        monitor: 10s
+      rollback_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+        monitor: 10s
+
+networks:
+  traefik-public:
+    external: true
+  database-backend:
+    driver: overlay
