@@ -20,9 +20,6 @@ Make sure you have this setup and installed **https://github.com/czadikem/core**
 # viewtube-swarm Stop
 1.  ```docker stack down viewtube```
 
-
-This is from the wiki in this repository https://github.com/ViewTube/viewtube-vue  and thanks too Oscar at https://silkky.cloud/ for helping me learn, setup and understand docker swarm
-
-use these for key generation 
-  https://guidgenerator.com/
-  https://tools.reactpwa.com/vapid
+# Acknowledgments
+Thanks to https://github.com/ViewTube/viewtube-vue  and thanks too Oscar at https://silkky.cloud/ for helping me learn, setup and understand docker swarm
+Also thanks to the wonderful people that created these sites https://tools.reactpwa.com/vapid, https://guidgenerator.com/
