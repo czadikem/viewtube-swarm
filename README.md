@@ -5,8 +5,11 @@ It is a docker swarm that has viewtube
 Make sure you have this setup and installed **https://github.com/czadikem/core**
 
 # viewtube-swarm Install
-1.  ``` clone https://github.com/czadikem/viewtube-swarm.git
-2.  ```viewtube-swarm
+1.  ```git clone https://github.com/czadikem/viewtube-swarm.git```
+2.  ```cd viewtube-swarm```
+3.  ```rm data/blank.txt```  had to put in this github repository so github would not remove the data folder
+4.  ```cp .env.template .env```
+5.  ```nano.env``` Put your hostnames for viewtube in this file "You can get three free ones from noip"
 
 
 
