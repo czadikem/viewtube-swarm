@@ -21,4 +21,4 @@ Make sure you have this setup and installed **https://github.com/czadikem/core**
 1.  ```docker stack down viewtube```
 
 # Acknowledgments
-Thanks to https://github.com/ViewTube/viewtube-vue  and thanks too Oscar at https://silkky.cloud/ for helping me learn, setup and understand docker swarm; and finally thanks to the wonderful people that created these sites https://tools.reactpwa.com/vapid, https://guidgenerator.com/
+Thanks to the wonderful people that made https://github.com/ViewTube/viewtube-vue and thanks too Oscar at https://silkky.cloud/ for helping me learn, setup and understand docker swarm; and finally thanks to the wonderful people that created these sites https://tools.reactpwa.com/vapid, https://guidgenerator.com/
