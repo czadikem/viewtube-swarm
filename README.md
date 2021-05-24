@@ -1,5 +1,5 @@
 # What is viewtube-swarm
-It is a docker swarm that has viewtube
+It is a docker swarm that takes youtube videos from youtube and makes you anonymous
 
 # Requirements
 Make sure you have this setup and installed **https://github.com/czadikem/core**
